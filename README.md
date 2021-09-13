@@ -36,7 +36,10 @@ This repository houses all of my Linux configuration files for the various progr
 - dmenu
 - bash-completion
 - arc-gtk-theme
-
+- volumeicon
+- polkit
+- lxsession
+- etcher
 
 ## AUR Install List
 - arc-kde (For Dark themes in Kdenlive)
