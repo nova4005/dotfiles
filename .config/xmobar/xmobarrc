@@ -1,37 +1,29 @@
-Config { font            = "xft:Ubuntu:weight=bold:pixelsize=11:antialias=true:hinting=true"
-       , additionalFonts = [ "xft:Source Code Pro:pixelsize=11:antialias=true:hinting=true"
+Config { font            = "xft:Ubuntu:weight=bold:pixelsize=18:antialias=true:hinting=true"
+       , additionalFonts = [ "xft:Mononoki:pixelsize=11:antialias=true:hinting=true"
                            , "xft:Font Awesome 5 Free Solid:pixelsize=12"
                            , "xft:Font Awesome 5 Brands:pixelsize=12"
                            ]
        , bgColor      = "#282c34"
        , fgColor      = "#ff6c6b"
-       -- Position TopSize and BottomSize take 3 arguments:
-       --   an alignment parameter (L/R/C) for Left, Right or Center.
-       --   an integer for the percentage width, so 100 would be 100%.
-       --   an integer for the minimum pixel height for xmobar, so 24 would force a height of at least 24 pixels.
-       --   NOTE: The height should be the same as the trayer (system tray) height.
        , position       = TopSize L 100 24
        , lowerOnStart = True
        , hideOnStart  = False
        , allDesktops  = True
        , persistent   = True
-       , iconRoot     = "/home/garrett/.xmonad/xpm/"
+       , iconRoot     = "/home/garrett/.xmonad/xpm/"  -- default: "."
        , commands = [
-		      Run Weather "KGVL" ["-t","<station>: <tempC>C",
-                                          "-L","18","-H","25",
-                                          "--normal","green",
-                                          "--high","red",
-                                          "--low","lightblue"] 36000
-                    , Run Cpu ["-t", "<fn=2>\xf108</fn>  cpu: (<total>%)","-H","50","--high","red"] 20
+                      Run Cpu ["-t", "<fn=2>\xf108</fn>  cpu: (<total>%)","-H","50","--high","red"] 20
                     , Run Memory ["-t", "<fn=2>\xf233</fn>  mem: <used>M (<usedratio>%)"] 20
                     , Run DiskU [("/", "<fn=2>\xf0c7</fn>  hdd: <free> free")] [] 60
                     , Run Uptime ["-t", "<fn=2>\xf0aa</fn> uptime: <days>d <hours>h"] 360
-                    , Run Date "<fn=2>\xf017</fn>  %b %d %Y - %H:%M:%S " "date" 10
+                    , Run Date "<fn=2>\xf017</fn>  %b %d %Y - (%H:%M) " "date" 50
+                        -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
                     , Run Com "/home/garrett/.config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 20
-                    -- , Run UnsafeStdinReader
+                        -- Prints out the left side items such as workspaces, layout, etc.
+                    , Run UnsafeStdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = " <icon=haskell_20.xpm/>    }{ <box type=Bottom width=2 mb=2 color=#fc05be><fc=#fc05be>%KGVL%</fc></box>    <box type=Bottom width=2 mb=2 color=#ecbe7b><fc=#ecbe7b><action=`alacritty -e htop`>%cpu%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#ff6c6b><fc=#ff6c6b><action=`alacritty -e htop`>%memory%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#a9a1e1><fc=#a9a1e1><action=`alacritty -e htop`>%disku%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#98be65><fc=#98be65><action=`alacritty -e htop`>%uptime%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#46d9ff><fc=#46d9ff>%date%</fc></box> %trayerpad%"
+       , template = " <icon=haskell_20.xpm/>   <fc=#666666>|</fc> %UnsafeStdinReader% }{ <box type=Bottom width=2 mb=2 color=#ecbe7b><fc=#ecbe7b><action=`alacritty -e htop`>%cpu%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#ff6c6b><fc=#ff6c6b><action=`alacritty -e htop`>%memory%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#a9a1e1><fc=#a9a1e1><action=`alacritty -e htop`>%disku%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#46d9ff><fc=#46d9ff>%date%</fc></box> %trayerpad%"
        }
 

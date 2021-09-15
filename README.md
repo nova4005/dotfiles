@@ -5,18 +5,22 @@ This repository houses all of my Linux configuration files for the various progr
 
 ## Install List
 
-- XMonad
-- XMobar
-- Thunar
-- Alacritty
-- Firefox
-- Neofetch
+- xmonad
+- xmonad-utils
+- xmonad-contrib
+- xdotool
+- xmobar
+- pcmanfm
+- alacritty
+- firefox
+- neofetch
 - htop
 - 1Password
 - Kdenlive
 - nitrogen
 - picom
 - xorg
+- xorg-xinit
 - vim
 - trayer
 - terminus-font
@@ -29,9 +33,7 @@ This repository houses all of my Linux configuration files for the various progr
 - sudo
 - networkmanager
 - base-devel
-- lightdm
-- lightdm-gtk-greeter
-- lightdm-gtk-gretter-settings
+- sddm (Login Manager)
 - gzip
 - dmenu
 - bash-completion
@@ -39,7 +41,17 @@ This repository houses all of my Linux configuration files for the various progr
 - volumeicon
 - polkit
 - lxsession
-- etcher
+- nvidia
+- nvtop
+- papirus-icon-theme
 
+
+
+
+**Need to install YAY AUR helper**
+(git clone https://aur.archlinux.org/yay-git.git)
+1. cd yay-git/
+2. makepkg -si (Requires base-devel to be installed)
 ## AUR Install List
 - arc-kde (For Dark themes in Kdenlive)
+- nerd-fonts-mononoki
