@@ -19,7 +19,7 @@ import Data.Maybe (fromJust)
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
-
+import XMonad.Actions.GridSelect
 
 -- The preferred terminal program, which is used in a binding below and by
 -- certain contrib modules.
@@ -54,7 +54,7 @@ myModMask       = mod4Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = [" dev ", " www ", " sys ", "doc ", " vbox ", " chat ", " mus ", " vid ", " gfx "]
+myWorkspaces    = [" dev ", " www ", " sys ", "doc ", " code ", " chat ", " mus ", " vid ", " gfx "]
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
 clickable ws = "<action=xdotool key super+"++show i++">"++ws++"</action>"
@@ -75,13 +75,17 @@ windowCount = gets $ Just . show . length . W.integrate' . W.stack . W.workspace
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
 
     -- launch a terminal
-    [ ((modm .|. shiftMask, xK_Return), spawn $ XMonad.terminal conf)
+    [ ((modm, xK_Return), spawn $ XMonad.terminal conf)
 
     -- launch dmenu
-    , ((modm,               xK_p     ), spawn "dmenu_run")
+    , ((modm .|. shiftMask, xK_d     ), spawn "dmenu_run")
 
     -- launch gmrun
     , ((modm .|. shiftMask, xK_p     ), spawn "gmrun")
+
+    , ((modm .|. shiftMask, xK_f     ), spawn "firefox")
+
+    , ((modm .|. controlMask, xK_f ), spawn "thunar")
 
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill)
@@ -108,7 +112,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_m     ), windows W.focusMaster  )
 
     -- Swap the focused window and the master window
-    , ((modm,               xK_Return), windows W.swapMaster)
+    , ((modm .|. shiftMask, xK_Return), windows W.swapMaster)
 
     -- Swap the focused window with the next window
     , ((modm .|. shiftMask, xK_j     ), windows W.swapDown  )
@@ -135,8 +139,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Use this binding with avoidStruts from Hooks.ManageDocks.
     -- See also the statusBar function from Hooks.DynamicLog.
     --
-    -- , ((modm              , xK_b     ), sendMessage ToggleStruts)
-
+    , ((modm .|. shiftMask, xK_space ), sendMessage ToggleStruts)
+    , ((modm              , xK_g     ), goToSelected defaultGSConfig)
+    , ((modm              , xK_b     ), bringSelected defaultGSConfig)
     -- Quit xmonad
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
 
@@ -226,13 +231,23 @@ myLayout = avoidStruts (tiled ||| Mirror tiled ||| Full)
 -- 'className' and 'resource' are used below.
 --
 myManageHook = composeAll
-    [ className =? "MPlayer"        --> doFloat
-    , className =? "Gimp"           --> doFloat
-    , resource  =? "desktop_window" --> doIgnore
-    , resource  =? "kdesktop"       --> doIgnore
-    , title =? "Mozilla Firefox"     --> doShift ( myWorkspaces !! 1 )
-    , className =? "Gimp"            --> doShift ( myWorkspaces !! 8 ) ]
-
+    [ className =? "MPlayer"                     --> doFloat
+    , className =? "Gimp"                        --> doFloat
+    , resource  =? "desktop_window"              --> doIgnore
+    , resource  =? "kdesktop"                    --> doIgnore
+    , title     =? "Mozilla Firefox"             --> doShift ( myWorkspaces !! 1 )
+    , className =? "Gimp"                        --> doShift ( myWorkspaces !! 8 )
+    , className =? "Psensor"                     --> doShift ( myWorkspaces !! 2 )
+    , className =? "kdenlive"                    --> doShift ( myWorkspaces !! 8 ) 
+    , className =? "Microsoft Teams - Insiders"  --> doShift ( myWorkspaces !! 5 )
+    , className =? "obs"                         --> doShift ( myWorkspaces !! 7 ) 
+    , className =? "TelegramDesktop"             --> doShift ( myWorkspaces !! 5 ) 
+    , className =? "Code"                        --> doShift ( myWorkspaces !! 4 )
+    , className =? "vlc"                         --> doShift ( myWorkspaces !! 7 ) 
+    , className =? "Discord"                     --> doShift ( myWorkspaces !! 5 )
+    , className =? "trayer"                      --> doIgnore
+    , manageDocks 
+    ]
 ------------------------------------------------------------------------
 -- Event handling
 
@@ -265,7 +280,7 @@ myStartupHook = do
         spawnOnce "picom &"
         spawnOnce "nm-applet &"
         spawnOnce "volumeicon &"
-        spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor 1 --transparent true --alpha 0 --tint 0x292d3e --height 22 &"
+        spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor primary --transparent true --alpha 0 --tint 0x292d3e --height 22 &"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
