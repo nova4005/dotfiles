@@ -54,7 +54,7 @@ myModMask       = mod4Mask
 --
 -- > workspaces = ["web", "irc", "code" ] ++ map show [4..9]
 --
-myWorkspaces    = [" dev ", " www ", " sys ", "doc ", " code ", " chat ", " mus ", " vid ", " gfx "]
+myWorkspaces = [" dev ", " www ", " sys ", " mail ", " code ", " chat ", " files ", " vid ", " gfx "]
 myWorkspaceIndices = M.fromList $ zipWith (,) myWorkspaces [1..] -- (,) == \x y -> (x,y)
 
 clickable ws = "<action=xdotool key super+"++show i++">"++ws++"</action>"
