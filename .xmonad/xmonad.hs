@@ -86,7 +86,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_f     ), spawn "firefox")
 
     , ((modm .|. controlMask, xK_f ), spawn "thunar")
-
+    , ((modm .|. shiftMask,  xK_o ), spawn "flameshot gui")
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill)
 
@@ -280,7 +280,8 @@ myStartupHook = do
         spawnOnce "picom &"
         spawnOnce "nm-applet &"
         spawnOnce "volumeicon &"
-        spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor primary --transparent true --alpha 0 --tint 0x292d3e --height 22 &"
+        spawnOnce "flameshot &"
+        spawnOnce "trayer --edge top --align right --widthtype request --padding 15 --SetDockType true --SetPartialStrut true --expand true --monitor primary --transparent true --alpha 0 --tint 0x292d3e --height 30 --iconspacing 8 &"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.

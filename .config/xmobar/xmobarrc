@@ -5,7 +5,7 @@ Config { font            = "xft:Ubuntu:weight=bold:pixelsize=22:antialias=true:h
                            ]
        , bgColor      = "#282c34"
        , fgColor      = "#ff6c6b"
-       , position       = TopSize L 100 24
+       , position       = TopSize L 100 30
        , lowerOnStart = True
        , hideOnStart  = False
        , allDesktops  = True
@@ -18,7 +18,7 @@ Config { font            = "xft:Ubuntu:weight=bold:pixelsize=22:antialias=true:h
                     , Run Uptime ["-t", "<fn=2>\xf0aa</fn> uptime: <days>d <hours>h"] 360
                     , Run Date "<fn=2>\xf017</fn>  %b %d %Y - (%H:%M) " "date" 50
                         -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
-                    , Run Com "/home/garrett/.config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 20
+                    , Run Com "/home/garrett/.config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 30
                         -- Prints out the left side items such as workspaces, layout, etc.
                     , Run UnsafeStdinReader
                     ]
