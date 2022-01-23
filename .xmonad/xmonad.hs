@@ -18,7 +18,8 @@ import qualified Data.Map        as M
 import Data.Maybe (fromJust)
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
 import XMonad.Hooks.EwmhDesktops
-import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
+-- import XMonad.Hooks.ManageDocks (avoidStruts, docks, manageDocks, ToggleStruts(..))
+import XMonad.Hooks.ManageDocks
 import XMonad.Actions.GridSelect
 
 -- The preferred terminal program, which is used in a binding below and by
@@ -140,8 +141,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- See also the statusBar function from Hooks.DynamicLog.
     --
     , ((modm .|. shiftMask, xK_space ), sendMessage ToggleStruts)
-    , ((modm              , xK_g     ), goToSelected defaultGSConfig)
-    , ((modm              , xK_b     ), bringSelected defaultGSConfig)
+    , ((modm              , xK_g     ), goToSelected def)
+    , ((modm              , xK_b     ), bringSelected def)
     -- Quit xmonad
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
 
@@ -305,7 +306,7 @@ main = do
 
         layoutHook         = myLayout,
         manageHook         = myManageHook,
-        handleEventHook    = docksEventHook,
+--        handleEventHook    = docks,
         startupHook        = myStartupHook,
         logHook            = dynamicLogWithPP $ xmobarPP
         {       ppOutput = \x -> hPutStrLn xmproc x                          -- xmobar on monitor 1
