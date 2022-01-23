@@ -18,7 +18,8 @@ import qualified Data.Map        as M
 import Data.Maybe (fromJust)
 import XMonad.Hooks.DynamicLog (dynamicLogWithPP, wrap, xmobarPP, xmobarColor, shorten, PP(..))
 import XMonad.Hooks.EwmhDesktops
-import XMonad.Hooks.ManageDocks (avoidStruts, docksEventHook, manageDocks, ToggleStruts(..))
+-- import XMonad.Hooks.ManageDocks (avoidStruts, docks, manageDocks, ToggleStruts(..))
+import XMonad.Hooks.ManageDocks
 import XMonad.Actions.GridSelect
 
 -- The preferred terminal program, which is used in a binding below and by
@@ -86,7 +87,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_f     ), spawn "firefox")
 
     , ((modm .|. controlMask, xK_f ), spawn "thunar")
-
+    , ((modm .|. shiftMask,  xK_o ), spawn "flameshot gui")
     -- close focused window
     , ((modm .|. shiftMask, xK_c     ), kill)
 
@@ -140,8 +141,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- See also the statusBar function from Hooks.DynamicLog.
     --
     , ((modm .|. shiftMask, xK_space ), sendMessage ToggleStruts)
-    , ((modm              , xK_g     ), goToSelected defaultGSConfig)
-    , ((modm              , xK_b     ), bringSelected defaultGSConfig)
+    , ((modm              , xK_g     ), goToSelected def)
+    , ((modm              , xK_b     ), bringSelected def)
     -- Quit xmonad
     , ((modm .|. shiftMask, xK_q     ), io (exitWith ExitSuccess))
 
@@ -280,7 +281,8 @@ myStartupHook = do
         spawnOnce "picom &"
         spawnOnce "nm-applet &"
         spawnOnce "volumeicon &"
-        spawnOnce "trayer --edge top --align right --widthtype request --padding 6 --SetDockType true --SetPartialStrut true --expand true --monitor primary --transparent true --alpha 0 --tint 0x292d3e --height 22 &"
+        spawnOnce "flameshot &"
+        spawnOnce "trayer --edge top --align right --widthtype request --padding 15 --SetDockType true --SetPartialStrut true --expand true --monitor primary --transparent true --alpha 0 --tint 0x292d3e --height 30 --iconspacing 8 &"
 
 ------------------------------------------------------------------------
 -- Now run xmonad with all the defaults we set up.
@@ -304,7 +306,7 @@ main = do
 
         layoutHook         = myLayout,
         manageHook         = myManageHook,
-        handleEventHook    = docksEventHook,
+--        handleEventHook    = docks,
         startupHook        = myStartupHook,
         logHook            = dynamicLogWithPP $ xmobarPP
         {       ppOutput = \x -> hPutStrLn xmproc x                          -- xmobar on monitor 1

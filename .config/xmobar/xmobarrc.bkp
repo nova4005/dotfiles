@@ -1,0 +1,29 @@
+Config { font            = "xft:Ubuntu:weight=bold:pixelsize=22:antialias=true:hinting=true"
+       , additionalFonts = [ "xft:Mononoki:pixelsize=18:antialias=true:hinting=true"
+                           , "xft:Font Awesome 5 Free Solid:pixelsize=18"
+                           , "xft:Font Awesome 5 Brands:pixelsize=18"
+                           ]
+       , bgColor      = "#282c34"
+       , fgColor      = "#ff6c6b"
+       , position       = TopSize L 100 30
+       , lowerOnStart = True
+       , hideOnStart  = False
+       , allDesktops  = True
+       , persistent   = True
+       , iconRoot     = "/home/garrett/.xmonad/xpm/"  -- default: "."
+       , commands = [
+                      Run Cpu ["-t", "<fn=2>\xf108</fn>  cpu: (<total>%)","-H","50","--high","red"] 20
+                    , Run Memory ["-t", "<fn=2>\xf233</fn>  mem: <used>M (<usedratio>%)"] 20
+                    , Run DiskU [("/", "<fn=2>\xf0c7</fn>  hdd: <free> free")] [] 60
+                    , Run Uptime ["-t", "<fn=2>\xf0aa</fn> uptime: <days>d <hours>h"] 360
+                    , Run Date "<fn=2>\xf017</fn>  %b %d %Y - (%H:%M) " "date" 50
+                        -- Script that dynamically adjusts xmobar padding depending on number of trayer icons.
+                    , Run Com "/home/garrett/.config/xmobar/trayer-padding-icon.sh" [] "trayerpad" 30
+                        -- Prints out the left side items such as workspaces, layout, etc.
+                    , Run UnsafeStdinReader
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = " <icon=haskell_20.xpm/>   <fc=#666666>|</fc> %UnsafeStdinReader% }{ <box type=Bottom width=2 mb=2 color=#ecbe7b><fc=#ecbe7b><action=`alacritty -e htop`>%cpu%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#ff6c6b><fc=#ff6c6b><action=`alacritty -e htop`>%memory%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#a9a1e1><fc=#a9a1e1><action=`alacritty -e htop`>%disku%</action></fc></box>    <box type=Bottom width=2 mb=2 color=#46d9ff><fc=#46d9ff>%date%</fc></box> %trayerpad%"
+       }
+
